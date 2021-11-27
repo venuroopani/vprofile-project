@@ -39,9 +39,14 @@ pipeline {
 	stage('SCA'){
             steps {
                 dependencyCheck additionalArguments: '', odcInstallation: '6.5.0'
+	    }
+		post {
+                success {
+                    echo 'Now Archiving...'
                 echo 'Risk Gate Thresholds...'
-                dependencyCheckPublisher failedTotalCritical: 1, failedTotalHigh: 1, failedTotalLow: 1, failedTotalMedium: 1, pattern: '**/dependency-check-report.xml'
-        }
+                dependencyCheckPublisher failedNewCritical: 1, failedNewHigh: 1, failedNewLow: 1, failedNewMedium: 1, failedTotalCritical: 1, failedTotalHigh: 1, failedTotalLow: 1, failedTotalMedium: 1, pattern: '**/dependency-check-report.xml', unstableNewCritical: 1, unstableNewHigh: 1, unstableNewLow: 1, unstableNewMedium: 1, unstableTotalCritical: 1, unstableTotalHigh: 1, unstableTotalLow: 1, unstableTotalMedium: 1
+        		}
+		}
 	}	
         stage ('CODE ANALYSIS WITH CHECKSTYLE'){
             steps {
