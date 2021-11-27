@@ -61,8 +61,9 @@ pipeline {
 
           steps {
             withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.organization=devsecops-sast \
+	       	   -Dsonar.projectKey=sast-k \
+                   -Dsonar.projectName=sast \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
