@@ -71,7 +71,8 @@ pipeline {
 	       	   -Dsonar.projectKey=sast-k \
                    -Dsonar.projectName=sast \
                    -Dsonar.projectVersion=1.0 \
-                   -Dsonar.sources=src/ '''
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ '''
             }
 
             timeout(time: 20, unit: 'SECONDS') {
