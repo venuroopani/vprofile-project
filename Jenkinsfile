@@ -43,7 +43,7 @@ pipeline {
             post {
                 success {
                     echo 'Risk Gate Thresholds...'
-                    dependencyCheckPublisher failedNewCritical: 1, failedNewHigh: 1, failedNewLow: 1, failedNewMedium: 1, failedTotalCritical: 1, failedTotalHigh: 1, failedTotalLow: 1, failedTotalMedium: 1, pattern: '**/dependency-check-report.xml.'
+                    dependencyCheckPublisher failedNewCritical: 1, failedNewHigh: 1, failedNewLow: 1, failedNewMedium: 1, failedTotalCritical: 1, failedTotalHigh: 1, failedTotalLow: 1, failedTotalMedium: 1, pattern: '**/dependency-check-report.xml'
                 }
             }
         }
