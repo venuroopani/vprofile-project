@@ -36,9 +36,15 @@ pipeline {
             }
         }
 
-	stage('INTEGRATION TEST'){
+	stage('SCA'){
             steps {
-                sh 'mvn verify -DskipUnitTests'
+                dependencyCheck additionalArguments: '', odcInstallation: '6.5.0'
+            }
+            post {
+                success {
+                    echo 'Risk Gate Thresholds...'
+                    dependencyCheckPublisher failedNewCritical: 1, failedNewHigh: 1, failedNewLow: 1, failedNewMedium: 1, failedTotalCritical: 1, failedTotalHigh: 1, failedTotalLow: 1, failedTotalMedium: 1, pattern: '**/dependency-check-report.xml.'
+                }
             }
         }
 		
@@ -65,11 +71,7 @@ pipeline {
 	       	   -Dsonar.projectKey=sast-k \
                    -Dsonar.projectName=sast \
                    -Dsonar.projectVersion=1.0 \
-                   -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
-                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
-                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                   -Dsonar.sources=src/ '''
             }
 
             timeout(time: 20, unit: 'SECONDS') {
