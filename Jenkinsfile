@@ -70,7 +70,7 @@ pipeline {
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ '''
             }
 
-            timeout(time: 1, unit: 'MINUTES') {
+            timeout(time: 20, unit: 'SECONDS') {
                waitForQualityGate abortPipeline: true
             }
           }
