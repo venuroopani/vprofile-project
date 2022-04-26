@@ -1,23 +1,6 @@
 pipeline {
-    
-	agent any
-/*	
-	tools {
-        maven "maven3"
-    }
-*/	
-    environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
-        NEXUS_REPOSITORY = "vprofile-release"
-	NEXUS_REPOGRP_ID    = "vprofile-grp-repo"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
-        ARTVERSION = "${env.BUILD_ID}"
-    }
-	
+	agent any	
     stages{
-        
         stage('BUILD'){
             steps {
                 sh 'mvn clean install -DskipTests'
@@ -56,13 +39,13 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
-             scannerHome = tool 'sonarscanner4'
+             scannerHome = tool 'sonar-scanner'
           }
 
           steps {
-            withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+            withSonarQubeEnv('cloud-sonarqube') {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile-devsecops \
+                   -Dsonar.projectName=vprofile-devsecps \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -77,7 +60,7 @@ pipeline {
           }
         }
 
-        stage("Publish to Nexus Repository Manager") {
+   /*     stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
                     pom = readMavenPom file: "pom.xml";
@@ -106,13 +89,13 @@ pipeline {
                                 type: "pom"]
                             ]
                         );
-                    } 
+                    }  
 		    else {
                         error "*** File: ${artifactPath}, could not be found";
                     }
                 }
             }
-        }
+        } */
 
 
     }
